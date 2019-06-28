@@ -1,24 +1,49 @@
 #!/bin/bash
 set -e
 
-JAR_NAME=google-java-format-1.6-all-deps.jar
-JAR_URL="https://github.com/google/google-java-format/releases/download/google-java-format-1.6/$JAR_NAME"
-JAR_SHA256=73faf7c9b95bffd72933fa24f23760a6b1d18499151cb39a81cda591ceb7a5f4
+RELEASE=1.6
+JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
+RELEASES_URL=https://github.com/google/google-java-format/releases/download
+JAR_URL="${RELEASES_URL}/google-java-format-${RELEASE}/${JAR_NAME}"
 
 CACHE_DIR="$HOME/.cache/google-java-format-git-pre-commit-hook"
 JAR_FILE="$CACHE_DIR/$JAR_NAME"
+JAR_PGP_ASC_FILE="${JAR_FILE}.asc"
+PGP_SIGN_KEY_ID=E77417AC194160A3FABD04969A259C7EE636C5ED
 
 if [[ ! -f "$JAR_FILE" ]]
 then
     mkdir -p "$CACHE_DIR"
     cd "$CACHE_DIR" && curl -LJO "$JAR_URL"
-fi
+    cat >"$JAR_PGP_ASC_FILE" <<EOF
+-----BEGIN PGP SIGNATURE-----
 
-echo "${JAR_SHA256} *${JAR_FILE}" | shasum -a 256 -c
+iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAlsHZhoACgkQmiWcfuY2
+xe3tgQ//ft5l8gtDAN5s9Tl+uvoykG/Kxq4UTi2+DsAQ4oGeHJg99SKAwrwDGduG
+rUhB8CVlCyKBfBoNKK94JAOP/Q7wq88VOlriuN4o8QM5UwP+ZOCCRfY+xlHhuu1+
+UyrD1N0oVdGa/omrf4IKWBDgIs6Zishn0ie15qUVNz9k8+hc0bP3+wB1tIGFnugR
+66jV9vjL5N+2PakI6Hz4ASucTH6EUhmGYsSMGQlaxmJWWcuIO+y3ufwG+8DtrOuj
+13bkn78s4PbCvfgC+b+uuqF3nB1J1H+ZDTTiqxTCFGgOI9+ksa6H1CA9BRwqxbBV
+Jn6I4FB3LnP8xfaA+zRimaa7zFR7uI8/qJo+S55Y7nsT06TnaaSX6IodN5G9FCBp
+POQSx++SB56DuRvwqA6U1cqvSBJEzekPRw/C3xFgbFHOjCYujhkCNEXq1CRd10Ng
+FAnivzXoyEHzMgGy3R8jAlinxMYmUGm0NEtWbgFwNMlXUJIsE9ff+qzrFES8hfAH
+MSBvPcPBdTUtvpMSjKWBLeOqrJtDWwv/RL8Aoq616W5DKWtZV9Iy8lVvEckwFlc8
+SkTJMY70+4pDR1kRGg5rsxFfL3JQ2/EuncYGaNqpaSZkD7Uj4bCzDohYO5qvZcXj
+aZ74ifXOYUKs3n18rveK1EVgxD/+iohpUt2JPccEQkRVsOoVTlY=
+=uy69
+-----END PGP SIGNATURE-----
+EOF
+fi
 
 changed_java_files=$(git diff --cached --name-only --diff-filter=ACMR | grep ".*java$" || true)
 if [[ -n "$changed_java_files" ]]
 then
+    if ! gpg --list-keys "$PGP_SIGN_KEY_ID" >/dev/null
+    then
+        gpg --keyserver hkp://pgp.mit.edu --recv-key "$PGP_SIGN_KEY_ID"
+    fi
+    gpg --verify "$JAR_PGP_ASC_FILE" 2>/dev/null
+
     echo "Reformatting Java files: $changed_java_files"
     if ! java -jar "$JAR_FILE" --replace --set-exit-if-changed $changed_java_files
     then
