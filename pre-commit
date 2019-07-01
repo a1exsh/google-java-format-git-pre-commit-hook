@@ -42,7 +42,11 @@ then
     then
         gpg --keyserver hkp://pgp.mit.edu --recv-key "$PGP_SIGN_KEY_ID"
     fi
-    gpg --verify "$JAR_PGP_ASC_FILE" 2>/dev/null
+    if ! gpg --verify "$JAR_PGP_ASC_FILE" 2>/dev/null
+    then
+        echo "Failed to verify signature at: $JAR_PGP_ASC_FILE" >&2
+        exit 1
+    fi
 
     echo "Reformatting Java files: $changed_java_files"
     if ! java -jar "$JAR_FILE" --replace --set-exit-if-changed $changed_java_files
