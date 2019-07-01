@@ -14,7 +14,7 @@ PGP_SIGN_KEY_ID=E77417AC194160A3FABD04969A259C7EE636C5ED
 if [[ ! -f "$JAR_FILE" ]]
 then
     mkdir -p "$CACHE_DIR"
-    cd "$CACHE_DIR" && curl -LJO "$JAR_URL"
+    curl -L "$JAR_URL" -o "$JAR_FILE"
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
