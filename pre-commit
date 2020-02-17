@@ -33,11 +33,7 @@ vH0De+e3yZN/GXLYyQSUzmdQU8HMF9iuc81CT1ANgU+e9HU5k9FWSPHrA3gN7CKt
 =+/96
 -----END PGP SIGNATURE-----
 EOF
-fi
 
-changed_java_files=$(git diff --cached --name-only --diff-filter=ACMR | grep ".*java$" || true)
-if [[ -n "$changed_java_files" ]]
-then
     if ! gpg --list-keys "$PGP_SIGN_KEY_ID" >/dev/null
     then
         gpg --keyserver hkp://pgp.mit.edu --recv-key "$PGP_SIGN_KEY_ID"
@@ -47,7 +43,11 @@ then
         echo "Failed to verify signature at: $JAR_PGP_ASC_FILE" >&2
         exit 1
     fi
+fi
 
+changed_java_files=$(git diff --cached --name-only --diff-filter=ACMR | grep ".*java$" || true)
+if [[ -n "$changed_java_files" ]]
+then
     echo "Reformatting Java files: $changed_java_files"
     if ! java -jar "$JAR_FILE" --replace --set-exit-if-changed $changed_java_files
     then
