@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ex
+set -e
 
 RELEASE=1.7
 JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
