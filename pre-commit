@@ -34,11 +34,11 @@ vH0De+e3yZN/GXLYyQSUzmdQU8HMF9iuc81CT1ANgU+e9HU5k9FWSPHrA3gN7CKt
 -----END PGP SIGNATURE-----
 EOF
 
-    if ! gpg --list-keys "$PGP_SIGN_KEY_ID" >/dev/null
+    if ! gpg --list-keys "$PGP_SIGN_KEY_ID"
     then
         gpg --keyserver hkp://pgp.mit.edu --recv-key "$PGP_SIGN_KEY_ID"
     fi
-    if ! gpg --verify "$JAR_PGP_ASC_FILE" 2>/dev/null
+    if ! gpg --verify "$JAR_PGP_ASC_FILE"
     then
         echo "Failed to verify signature at: $JAR_PGP_ASC_FILE" >&2
         exit 1
