@@ -8,13 +8,14 @@ JAR_URL="${RELEASES_URL}/google-java-format-${RELEASE}/${JAR_NAME}"
 
 CACHE_DIR="$HOME/.cache/google-java-format-git-pre-commit-hook"
 JAR_FILE="$CACHE_DIR/$JAR_NAME"
+JAR_DOWNLOAD_FILE="${JAR_FILE}.tmp"
 JAR_PGP_ASC_FILE="${JAR_FILE}.asc"
 PGP_SIGN_KEY_ID=E77417AC194160A3FABD04969A259C7EE636C5ED
 
 if [[ ! -f "$JAR_FILE" ]]
 then
     mkdir -p "$CACHE_DIR"
-    curl -L "$JAR_URL" -o "$JAR_FILE"
+    curl -L "$JAR_URL" -o "$JAR_DOWNLOAD_FILE"
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
@@ -38,11 +39,8 @@ EOF
     then
         gpg --keyserver hkp://pgp.mit.edu --recv-key "$PGP_SIGN_KEY_ID"
     fi
-    if ! gpg --verify "$JAR_PGP_ASC_FILE"
-    then
-        echo "Failed to verify signature at: $JAR_PGP_ASC_FILE" >&2
-        exit 1
-    fi
+    gpg --verify "$JAR_PGP_ASC_FILE" "$JAR_DOWNLOAD_FILE"
+    mv "$JAR_DOWNLOAD_FILE" "$JAR_FILE"
 fi
 
 changed_java_files=$(git diff --cached --name-only --diff-filter=ACMR | grep ".*java$" || true)
