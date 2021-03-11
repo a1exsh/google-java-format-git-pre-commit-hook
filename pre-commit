@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-RELEASE=1.7
+RELEASE=1.9
 JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
 RELEASES_URL=https://github.com/google/google-java-format/releases/download
 JAR_URL="${RELEASES_URL}/google-java-format-${RELEASE}/${JAR_NAME}"
@@ -16,22 +16,24 @@ if [[ ! -f "$JAR_FILE" ]]
 then
     mkdir -p "$CACHE_DIR"
     curl -L "$JAR_URL" -o "$JAR_DOWNLOAD_FILE"
+
+    # https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format/1.9/google-java-format-1.9-all-deps.jar.asc
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAlw2hwoACgkQmiWcfuY2
-xe22Ww//YIHLWoQApuSmLdq4A1fcNOYbSpm6J9I2J1i2VoK84XSXP1XJTWsoYNbx
-Y3Xx6I8p28AxH7LOWcdtds9enbF06blzz+1CxuSxvN32M7DDursiihsUYU9wmZVU
-7V1ZYBtaYTYYw8C5U+UchcIVJrHdG9KrAiBcn1s76gigNAtCYV/1PyryupS1wcDZ
-bdj48mI6adcnIpV+9D9W4rLuXw2Hg+ewktXTj3HYqkg+5Nvc/zP9ueBvqEsyh5Iz
-3+69egblhuN7gRaEWarlYfJ2n/kF9T/UMAkQrWD8+9cOgUcgTHkNADNOLpmDH6t7
-OYvZhgwQT920ZJgGP8e3DGyvMxBMxlr19ciTT19HL5qglyhFm/SeHvFdpaHkIjb9
-CmASWrlkALdEv2gPx+m79EJifyK5tYtViZgLhfjwYkS/opw5TfJX0+Ngh9ehgune
-c6TgEIzRQAEQ/9QoVk2crGT/lhXnJI3Zid7cSP2/fRdui91KaKGi9qFvXyJf7XKI
-vH0De+e3yZN/GXLYyQSUzmdQU8HMF9iuc81CT1ANgU+e9HU5k9FWSPHrA3gN7CKt
-/a3qIsIBpcdKe9zcPxSoEqRzVNept4IhszgiIVxZPNrPShzCRbS1sGURoOTbSFSP
-+aKWNFoswX/RANGQVajOyfF5mJ3lB4N0u2eI0HIR3NzNx0HN+2Q=
-=+/96
+iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAl9D90cACgkQmiWcfuY2
+xe3x3BAAlZhrnH8qmUbyIOZoPmU+eBdNE5ExYOLPpuDDACQerqAKC7OR03e0SB5h
+/h5NFbL/xsGNMYDPmw3Fe/8GT6ZdqqCX+ZxS6+kbfmFMlKpFSIDbqhOTGrqJj+OF
+pkIpL3W6LI714h0ja1mXePyJdjhUoS0YfFJTPKx3V4TNYTIXVSxHv207nQiI0bnc
+peOczMTMGd33dcCjwwsMIogEZQv5RApQ4T2spWEjTdzm3ZZlVcxMdI68589axWCM
+HSLgTX7N/DHUh9yzBIc3b3JEWbr3SlqxF70/97+ZfJhHnZmcFdz2w1rlckdsIRi1
+wmQWseHN1+UaKa2c1fu3QVc7k9hjAt+qGlb85ZS7PJVW8Dy9ulKzpCbSLgDKyTsZ
+lsBryTZx0bSq9L5AVxw6kXf9NXuc7OrujvnfctOhgVRnz/7hlYLRRu3kk/bgz4ns
+eePIbXjF3i6EArl5TFHQnm+Qn3NiCnIRIdi60lEcQcJC6mRmY1891ZIECqguwWBI
+3arSWEwrQXlTPM5HXJKFPQDywBrTxu17NQhOl4gk4Ia8Nsbnzc1NxlQ9Z3hbRQCq
+MKHfq5M92zHQ4IedAnDkPIxQeaA3BkfkXYV+p0OqztT4qzk291GULeL5XPR10DBc
+ZGZvtJKi7GBUERQhMkoPttgNrt89ks3yxnfiAYGaoAt3FJpKr54=
+=ktw0
 -----END PGP SIGNATURE-----
 EOF
 
