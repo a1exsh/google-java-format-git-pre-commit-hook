@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-RELEASE=1.9
+RELEASE=1.10.0
 JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
-RELEASES_URL=https://github.com/google/google-java-format/releases/download
-JAR_URL="${RELEASES_URL}/google-java-format-${RELEASE}/${JAR_NAME}"
+RELEASES_URL=https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format
+JAR_URL="${RELEASES_URL}/${RELEASE}/${JAR_NAME}"
 
 CACHE_DIR="$HOME/.cache/google-java-format-git-pre-commit-hook"
 JAR_FILE="$CACHE_DIR/$JAR_NAME"
@@ -17,23 +17,23 @@ then
     mkdir -p "$CACHE_DIR"
     curl -L "$JAR_URL" -o "$JAR_DOWNLOAD_FILE"
 
-    # https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format/1.9/google-java-format-1.9-all-deps.jar.asc
+    # Downloaded from: "${JAR_URL}.asc"
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAl9D90cACgkQmiWcfuY2
-xe3x3BAAlZhrnH8qmUbyIOZoPmU+eBdNE5ExYOLPpuDDACQerqAKC7OR03e0SB5h
-/h5NFbL/xsGNMYDPmw3Fe/8GT6ZdqqCX+ZxS6+kbfmFMlKpFSIDbqhOTGrqJj+OF
-pkIpL3W6LI714h0ja1mXePyJdjhUoS0YfFJTPKx3V4TNYTIXVSxHv207nQiI0bnc
-peOczMTMGd33dcCjwwsMIogEZQv5RApQ4T2spWEjTdzm3ZZlVcxMdI68589axWCM
-HSLgTX7N/DHUh9yzBIc3b3JEWbr3SlqxF70/97+ZfJhHnZmcFdz2w1rlckdsIRi1
-wmQWseHN1+UaKa2c1fu3QVc7k9hjAt+qGlb85ZS7PJVW8Dy9ulKzpCbSLgDKyTsZ
-lsBryTZx0bSq9L5AVxw6kXf9NXuc7OrujvnfctOhgVRnz/7hlYLRRu3kk/bgz4ns
-eePIbXjF3i6EArl5TFHQnm+Qn3NiCnIRIdi60lEcQcJC6mRmY1891ZIECqguwWBI
-3arSWEwrQXlTPM5HXJKFPQDywBrTxu17NQhOl4gk4Ia8Nsbnzc1NxlQ9Z3hbRQCq
-MKHfq5M92zHQ4IedAnDkPIxQeaA3BkfkXYV+p0OqztT4qzk291GULeL5XPR10DBc
-ZGZvtJKi7GBUERQhMkoPttgNrt89ks3yxnfiAYGaoAt3FJpKr54=
-=ktw0
+iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAmBk8GgACgkQmiWcfuY2
+xe15Ag/+PIPIhwPo5S0eVHsPuaH2F7gmjedJAlO/sP+XksHw3r9kvDHhxhtjzpaB
+nVUsj4xSTU/8TcG/GDGCWZPI8eqA+2184Wf+IDzm36oIRCSJwvEBmqCyG/ffxUzl
+K2sf8IoptGTWqfZTBu53jskGhVwuV0EqrnxBpaLvNbb019GI20YqcEeVC61f6fje
+yGM7MO/bTKtwr3p0GDddmxKghkTr/GQxmRHXH1PY2nyJi51yZnefGA8rXkNGAQnQ
+xahvxDWsqipdvokfYEC5LSnRXeB9oMHAsKrWwmlJXpvXS0z56pPqM8wO5OYnssTd
+DEVR7w/t4ldXS5Y3SA3B5cdOfUb8CVqzRz9Ht8g3/Pc9JfgRKl3s+JGfj9np41pd
+2zBzdY7a+5PjYi08WgVDcQYSuswAM7/71l2tKV88E9dqArPausYatRndvAfKivVF
+kUgEFCARhqNFS/8TtC9DPjJc0a2toEyrHurt33jPknfWHM2yhaW2wSfeDagfSHE0
+4pbusMBCesRk1lJZdcqNARqOtgfZD3V1J2CQ/3MCqTB0Z+Yzhxya5rLojfXQJNu1
+IhVd5OjdmBxL4UHdVLYvlBd16ng91GfsO91aedTL7TOFB9QZm4U35yknFYUcqHlL
+RkMpZx8/4hNMT8HicpUjBvF45yNpUL3bix71MJfl4ILG8dRE3ho=
+=b349
 -----END PGP SIGNATURE-----
 EOF
 
