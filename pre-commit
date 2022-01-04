@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-RELEASE=1.10.0
+RELEASE=1.13.0
 JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
 RELEASES_URL=https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format
 JAR_URL="${RELEASES_URL}/${RELEASE}/${JAR_NAME}"
@@ -21,19 +21,19 @@ then
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAmBk8GgACgkQmiWcfuY2
-xe15Ag/+PIPIhwPo5S0eVHsPuaH2F7gmjedJAlO/sP+XksHw3r9kvDHhxhtjzpaB
-nVUsj4xSTU/8TcG/GDGCWZPI8eqA+2184Wf+IDzm36oIRCSJwvEBmqCyG/ffxUzl
-K2sf8IoptGTWqfZTBu53jskGhVwuV0EqrnxBpaLvNbb019GI20YqcEeVC61f6fje
-yGM7MO/bTKtwr3p0GDddmxKghkTr/GQxmRHXH1PY2nyJi51yZnefGA8rXkNGAQnQ
-xahvxDWsqipdvokfYEC5LSnRXeB9oMHAsKrWwmlJXpvXS0z56pPqM8wO5OYnssTd
-DEVR7w/t4ldXS5Y3SA3B5cdOfUb8CVqzRz9Ht8g3/Pc9JfgRKl3s+JGfj9np41pd
-2zBzdY7a+5PjYi08WgVDcQYSuswAM7/71l2tKV88E9dqArPausYatRndvAfKivVF
-kUgEFCARhqNFS/8TtC9DPjJc0a2toEyrHurt33jPknfWHM2yhaW2wSfeDagfSHE0
-4pbusMBCesRk1lJZdcqNARqOtgfZD3V1J2CQ/3MCqTB0Z+Yzhxya5rLojfXQJNu1
-IhVd5OjdmBxL4UHdVLYvlBd16ng91GfsO91aedTL7TOFB9QZm4U35yknFYUcqHlL
-RkMpZx8/4hNMT8HicpUjBvF45yNpUL3bix71MJfl4ILG8dRE3ho=
-=b349
+iQIzBAABCgAdFiEE53QXrBlBYKP6vQSWmiWcfuY2xe0FAmGYKGMACgkQmiWcfuY2
+xe0hvw/+OvnNsoZUMoeNArCCbFw+FjuTQheKi6CsgkXdZLu2y1y2aN7NgJiRbUEN
+EJg5qJEKbXIQA5XWPcRpbbdSmzEPjIljPdRUdmQVH+iAJVRHJZJujKi5Vt4d6yer
+qK7XX1XUbUYS+DHTH30pKNbnGhl2q01ND3qFHB62zw5JMyItBJz/0d6DDgf30IkO
+cAu4vDqO865lpYMY0uyT/l1ISSr4c+CeSBd0PzsYqQrhtpZZnmJKZ2Yy9luNCL0/
+VP2/sL4YaUL2y/A8T267K8MmJKV509sn3cqAhFGJCz3/lay/Vrp4VIQO5gC3Y9GY
+5WNr6OiQedu4saoXHNG40QvgQIqg9Vb+X7XMZtGQwCMnWqReuN+EAL3CdtBrWAIi
+04dctO/PiCOg1nMxtpWTC7X87msOyBTnPTnhXKgLbWKdWFR+iBecxt1FxIXXvO23
+YrF6tPILOTFiveS+Xa2Zj5tyvy4jRkGGd42Ahdub6Tvd4EamDffoqClMzm/kELe+
++qeo4DCb9vj9gda5wQekX8gbCYgdL/lr2RZixaQNBc0jOEEloJcsifpftZschh7N
+NtZJrW0qSHIhWFtH/zqwzQifodvnwwQH9nJAZuAW72A2A2i/WnFVZJpg1vIcRj8M
+qaXTKh93EsCMMdWoDnzE8B2P9mdJpZWsVdofxVrGdxwaZtc60f4=
+=lBZ9
 -----END PGP SIGNATURE-----
 EOF
 
@@ -49,9 +49,14 @@ changed_java_files=$(git diff --cached --name-only --diff-filter=ACMR | grep ".*
 if [[ -n "$changed_java_files" ]]
 then
     echo "Reformatting Java files: $changed_java_files"
-    if ! java -jar "$JAR_FILE" --replace --set-exit-if-changed $changed_java_files
+    if ! java   --add-exports jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED \
+                --add-exports jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED \
+                --add-exports jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED \
+                --add-exports jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED \
+                --add-exports jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED \
+                -jar "$JAR_FILE" --replace --set-exit-if-changed $changed_java_files
     then
-        echo "Some files were changed, aborting commit!" >&2
+        echo "An error occured, aborting commit!" >&2
         exit 1
     fi
 else
