@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-RELEASE=1.15.0
+RELEASE=1.23.0
 JAR_NAME="google-java-format-${RELEASE}-all-deps.jar"
 RELEASES_URL=https://repo1.maven.org/maven2/com/google/googlejavaformat/google-java-format
 JAR_URL="${RELEASES_URL}/${RELEASE}/${JAR_NAME}"
@@ -21,19 +21,19 @@ then
     cat >"$JAR_PGP_ASC_FILE" <<EOF
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEE7gyocwdAkvgG9Ztl02SrqjmkcyAFAmImOGEACgkQ02Srqjmk
-cyCSXQ//f5cRQNbJhLmHASjRCRFMIe4+dcNd8l+Wy4izsfWctNs+Wj+p/Fnog3y6
-J0gY6B/BXB0Y/xZ7xeHhZU2xgWsgCwsTpOyWQw2sCmZV6Bnhvtjw0mxFfuJt1PRk
-UMfL8FvalF51rJUBpVcQeRojouccAFnOCMY4KwclWMOwWG1adfjUjrakEbkbHUpB
-ohxEYdTvwWkG72A/i0fSS2C0pQybzDWzvv/CweFaIB37cavwOuA2iDYZZC1400it
-lofa+zwvpey6CbPZzhESyDycFwriCE5v5txbGmkdNFWMnisDyTnprxVewnm2LHI7
-uFenMmT66G7ASNYqbdFWsMtyBhTGRlWWMb0ldxVhZkA6GN2diJHime/iHXR9GS1u
-S/uPkbTvp5HnSZjutV6z2X2smN+jJm3GBHNgp+prko8eg5n7wHudh5s616yCzE/L
-6ca7en1oH5TbH/9bLLVRNUw5DDlm51wf/pbRuecLYo27LbUjTUKZbhwHK0wV8F0d
-vDdno+j2U8KJ4rpifTHJAEnsUcrHvI8siJ7ADnEBnDl9xH+BTKZdS7rKe/vq96LG
-NilQ5b4qku7K1VhP1d+/sqXS2UKZmWLWaeJfvI+hj7R619Sn3xNM97sv5c5BYjv8
-FPXpXxWWHJ2T0iM4y+yRVRXFyP+owOFCc1jmVXlEgSErZbqHTCA=
-=oWka
+iQIzBAABCgAdFiEE7gyocwdAkvgG9Ztl02SrqjmkcyAFAmapT68ACgkQ02Srqjmk
+cyCN/Q//XICI70a9pH07FcWHsH416mk12nF7+3OugY2FH0j9TlwXL5FQB9Nq/pWt
+n5btRA+uNcaangFrKVfMYOVyLbaa3udahFOEQ2ewxqPTO8sZ4q+sWABdpKhzKjOg
+KE0hESZvs2QMvfXRbUYEGEDKTXaUP8U3I/Xuj0mnVPaucEZXGMuu1/2BhBinD4J1
+T7mAUCmX43HboFU98MvinZ70hW+ON8RD4IarHE8dCEHn/lSeFZFAW9jgUTQGcwcb
+VLt6CI1xx9CG3SmnMMPB1LUFPpyI/XryWJDI4WZKIx8OOiCoKvimXMcqZXcUpViL
+7qYuObb6xrg719nsHnGLkQkI67mRA+Ckhqzr9Ml2U4aZOJK9/0+wykd4TLDFuJjo
+TcxrmHdpBaOXnaiQhf2tNHqZGXY2uclbGkmvTKlnkcZ4s1yX0hS4Lv/Bf7wrKUsY
+iO+3vOlkxu5UoJUWzWZzb0R5BPKIvIIoZUAYsw3tMNffPVj2tV/qYSY/GlopjNsB
+qkC92rg6/Ou6c7+Q6mzoiWVFIWD63iFLfrT83L2SNZ3IivpkBGXqJ2JEsrs15804
+bOPsNgv2aj/amU5YG8f8T9EqtclfrOBmtLDSULUtBYi+/l7wVk+fFs6IAN8hqnDs
+d9mk7DgjBHX+wJVrOCQ0u70AaXji2gAFUpxHnA+oD0hUSiWAnUE=
+=ZwP8
 -----END PGP SIGNATURE-----
 EOF
 
